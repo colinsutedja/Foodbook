@@ -8,8 +8,7 @@
 #####  Foodbook is a mobile scanner that takes in pictures of menus or names of dishes via NLP to identify unique ingredients using ML, making it simpler for users to track nutrition and have a healthier diet based on their preferences.
 
 #### A visual
-![bigdatahackathon4sd](https://github.com/BigDataForSanDiego/bigdataforsandiego.github.io/blob/main/templates/img/bigdatahackathon_sd_2024.png?raw=true "Big Data Hackathon for San Diego 2024")
-<img height="10%" width="50%" alt="HDMA" src="https://github.com/BigDataForSanDiego/bigdataforsandiego.github.io/blob/main/templates/img/hdma2.png?raw=true"> 
+![IMG_0106](https://github.com/user-attachments/assets/f2fc91b7-0ee9-4fe5-bdaa-029fd989cdf0)
 
 <!--
 #### Theme: Enhancing Healthcare's Digital Front Door
