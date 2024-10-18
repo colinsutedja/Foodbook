@@ -5,7 +5,7 @@
 #### Team Name: Team Hoki
   
 #### Your team's hackathon idea in One sentence:
-#####  Foodbook is a mobile scanner that takes in pictures of menus or names of dishes via NLP to identify unique ingredients using ML, making it simpler for users to track nutrition and have a healthier diet based on their preferences.
+#####  Foodbook is a mobile scanner that takes in pictures of menus or names of dishes via computer vision and outputs their nutritional values, making it simpler for users to track nutrition and have a healthier diet based on their preferences.
 
 #### A visual
 ![IMG_0106](https://github.com/user-attachments/assets/f2fc91b7-0ee9-4fe5-bdaa-029fd989cdf0)
