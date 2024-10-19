@@ -64,11 +64,11 @@ print(word2vec.wv.most_similar('cream cheese'))
 #FIND SIMILAR STRINGS 2
 from rapidfuzz import process, fuzz
 import pandas as pd
-data1 = pd.read_csv('dataset/FOOD-DATA-GROUP1.csv', usecols=['food'])
-data2 = pd.read_csv('dataset/FOOD-DATA-GROUP2.csv', usecols=['food'])
-data3 = pd.read_csv('dataset/FOOD-DATA-GROUP3.csv', usecols=['food'])
-data4 = pd.read_csv('dataset/FOOD-DATA-GROUP4.csv', usecols=['food'])
-data5 = pd.read_csv('dataset/FOOD-DATA-GROUP5.csv', usecols=['food'])
+data1 = pd.read_csv('dataset/food_data_csv/FOOD-DATA-GROUP1.csv', usecols=['food'])
+data2 = pd.read_csv('dataset/food_data_csv/FOOD-DATA-GROUP2.csv', usecols=['food'])
+data3 = pd.read_csv('dataset/food_data_csv/FOOD-DATA-GROUP3.csv', usecols=['food'])
+data4 = pd.read_csv('dataset/food_data_csv/FOOD-DATA-GROUP4.csv', usecols=['food'])
+data5 = pd.read_csv('dataset/food_data_csv/FOOD-DATA-GROUP5.csv', usecols=['food'])
 food_names = pd.concat([data1, data2, data3, data4, data5], ignore_index=True)
 food_names = list(food_names.get('food'))
 
@@ -84,5 +84,5 @@ matched_pairs = list(filter(lambda x: x!= None,[find_best_match(item, food_names
 matches_df = pd.DataFrame().assign(menu_item = [elem[0] for elem in matched_pairs])
 matches_df = matches_df.assign(match = [elem[1] for elem in matched_pairs])
 
-
+matches_df.to_csv(r'dataset/food_matches.csv')
 print(matches_df)
