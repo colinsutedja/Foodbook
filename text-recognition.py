@@ -8,7 +8,7 @@ import json
 
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-filename = 'sample_menu.jpg'
+filename = 'pines_cropped2.jpg'
 img = np.array(Image.open(filename))
 
 '''
@@ -23,23 +23,12 @@ text = pytesseract.image_to_string(img)
 #Cleaning menu text
 cleantext = ''
 for c in text:
-    if(c.isalpha() or c ==' ' or c=='\n'):
+    if((c.isalpha() or c ==' ' or c=='\n') and not (c==',')):
         cleantext += c
 cleantext = cleantext.split('\n')
+cleantext = [elem.strip() for elem in cleantext]
+menu_items = list(filter(lambda elem: len(elem)>3, cleantext))
 
-'''
-#Spoonacular API cleaning menu text
-SpoonUrl = 'https://api.spoonacular.com/food/detect'
-SpoonKey = 'd2c7c2b8a5894cb59ac576f384ec1ec0'
-text = 'I like to eat delicious tacos. Only cheeseburger with cheddar are better than that. But then again, pizza with pepperoni, mushrooms, and tomatoes is so good, too!'
-headers= {'Content-Type': 'application/json'}
-data = {'Content-Type': 'application/x-www-form-urlencoded'}
-response = requests.post("https://api.spoonacular.com/food/detect?apiKey="+SpoonKey+"&text="+text, data=json.dumps(data), headers=headers)
-if(response.status_code == 200):
-    print(response.json())
-else:
-    print(response.status_code)
-'''
 print("----------------")
 print("RAW READ TEXT:")
 print("----------------")
@@ -48,10 +37,10 @@ print(text)
 print("----------------")
 print("CLEANED UP TEXT:")
 print("----------------")
-print(cleantext)
+print(menu_items)
 
 '''
-#FIND SIMILAR STRINGS
+#FIND SIMILAR STRINGS 1
 import pandas as pd
 import bs4 as bs
 import urllib.request
@@ -71,3 +60,29 @@ print(food_names)
 word2vec = Word2Vec(food_names, min_count=2)
 print(word2vec.wv.most_similar('cream cheese'))
 '''
+
+#FIND SIMILAR STRINGS 2
+from rapidfuzz import process, fuzz
+import pandas as pd
+data1 = pd.read_csv('dataset/FOOD-DATA-GROUP1.csv', usecols=['food'])
+data2 = pd.read_csv('dataset/FOOD-DATA-GROUP2.csv', usecols=['food'])
+data3 = pd.read_csv('dataset/FOOD-DATA-GROUP3.csv', usecols=['food'])
+data4 = pd.read_csv('dataset/FOOD-DATA-GROUP4.csv', usecols=['food'])
+data5 = pd.read_csv('dataset/FOOD-DATA-GROUP5.csv', usecols=['food'])
+food_names = pd.concat([data1, data2, data3, data4, data5], ignore_index=True)
+food_names = list(food_names.get('food'))
+
+def find_best_match(menu_item, dataframe_column, n=5):
+    matches = process.extract(menu_item, dataframe_column)
+    matches = sorted(matches, key=lambda x: x[1])
+    if max(matches, key=lambda x: x[1])[1] < 55:
+        return
+    top_n_matches = [tup[0] for tup in matches[-1:-n-1:-1]]
+    return (menu_item, top_n_matches)
+    
+matched_pairs = list(filter(lambda x: x!= None,[find_best_match(item, food_names,n=3) for item in menu_items]))
+matches_df = pd.DataFrame().assign(menu_item = [elem[0] for elem in matched_pairs])
+matches_df = matches_df.assign(match = [elem[1] for elem in matched_pairs])
+
+
+print(matches_df)
